@@ -41,3 +41,44 @@ function ocultarSecciones(){
       mostrarTexto("mensajeTasa", "La tasa debe estar entre 10% y 20%");
     }
   }
+
+  //Crear y Listar Clientes
+    function guardarCliente(){
+    let cedula = recuperaraTexto("txtCedula");
+    let nombre = recuperaraTexto("txtNombre");
+    let apellido = recuperaraTexto("txtApellido");
+    let ingresos = recuperarFloat("txtIngresos");
+    let egresos = recuperarFloat("txtEgresos");
+
+    let cliente = {
+      cedula: cedula,
+      nombre: nombre,
+      apellido: apellido,
+      ingresos: ingresos,
+      egresos: egresos
+    };
+
+    clientes.push(cliente);
+
+    pintarClientes();
+  }
+
+  function pintarClientes(){
+    let tabla = document.getElementById("tablaClientes");
+    tabla.innerHTML = "";
+
+    for(let i = 0; i < clientes.length; i++){
+      let cliente = clientes[i];
+
+      let fila = "<tr>";
+      fila += "<td>"+cliente.cedula+"</td>";
+      fila += "<td>"+cliente.nombre+"</td>";
+      fila += "<td>"+cliente.apellido+"</td>";
+      fila += "<td>"+cliente.ingresos+"</td>";
+      fila += "<td>"+cliente.egresos+"</td>";
+      fila += "<td><button>Actualizar</button></td>";
+      fila += "</tr>";
+
+      tabla.innerHTML += fila;
+    }
+  }
