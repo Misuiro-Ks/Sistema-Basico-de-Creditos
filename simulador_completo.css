@@ -1,14 +1,14 @@
 
     body {
       font-family: Arial, sans-serif;
-      background: #f4f6f9;
+      background: #f8f9f4;
       margin: 0;
       padding: 0;
     }
 
     header {
-      background: #1f3c88;
-      color: white;
+      background: #f5f10a;
+      color: rgba(8, 55, 150, 0.952);
       padding: 20px;
       text-align: center;
     }
@@ -16,7 +16,7 @@
     nav {
       display: flex;
       justify-content: center;
-      background: #e0e0e0;
+      background: #faf5f5;
       padding: 10px;
       gap: 10px;
       flex-wrap: wrap;
@@ -25,22 +25,22 @@
     nav button {
       padding: 10px 15px;
       border: none;
-      background: #1f3c88;
-      color: white;
+      background: #f5f10a;
+      color: rgba(8, 145, 150, 0.952);
       cursor: pointer;
       border-radius: 5px;
     }
 
     nav button:hover {
-      background: #14275c;
+      background: #4bc8d1;
     }
 
     section {
       display: none;
       padding: 20px;
-      max-width: 1000px;
+      max-width: 1000px;  
       margin: auto;
-      background: white;
+      background: rgb(167, 186, 219);
       margin-top: 20px;
       border-radius: 8px;
     }

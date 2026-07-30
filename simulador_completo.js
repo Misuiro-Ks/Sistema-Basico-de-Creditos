@@ -9,6 +9,9 @@
   let plazoCalculado = 0;
   let creditoAprobado = false;
 
+  // Cliente que se encontró en la sección de Créditos (independiente del que se edita en Clientes)
+  let clienteCredito = null;
+
   
 //Para recuperar o mostrar información usar los métodos de la clase utilitarios, puede agregar métodos adicionales en utilitarios
 
@@ -123,4 +126,92 @@ function guardarCliente(){
     mostrarTextoEnCaja("txtEgresos", "");
 
     clienteSeleccionado = null;
+  }
+
+  // ==========================================================
+  // PARTE 2 y 3: Buscar cliente para Crédito y mostrar sus datos
+  // ==========================================================
+  function buscarClienteCredito(){
+    let cedula = recuperaraTexto("buscarCedulaCredito");
+    let cliente = buscarCliente(cedula);
+
+    if(cliente != null){
+      clienteCredito = cliente;
+      mostrarDatosClienteCredito(cliente);
+    } else {
+      clienteCredito = null;
+      let datosClienteCredito = document.getElementById("datosClienteCredito");
+      datosClienteCredito.innerHTML = "<p>Cliente no encontrado</p>";
+    }
+  }
+
+  function mostrarDatosClienteCredito(cliente){
+    let datosClienteCredito = document.getElementById("datosClienteCredito");
+
+    datosClienteCredito.innerHTML = `
+      <h3>Datos del Cliente</h3>
+      <p><strong>Cédula:</strong> ${cliente.cedula}</p>
+      <p><strong>Nombre:</strong> ${cliente.nombre}</p>
+      <p><strong>Apellido:</strong> ${cliente.apellido}</p>
+      <p><strong>Ingresos:</strong> ${cliente.ingresos}</p>
+      <p><strong>Egresos:</strong> ${cliente.egresos}</p>
+    `;
+  }
+
+  // ==========================================================
+  // PARTE 4: Funciones del simulador de crédito (reutilizables)
+  // ==========================================================
+  function calcularCapacidadPago(cliente){
+    return cliente.ingresos - cliente.egresos;
+  }
+
+  function calcularInteres(monto, tasa, plazo){
+    return monto * (tasa / 100) * (plazo / 12);
+  }
+
+  function calcularTotalAPagar(monto, interes){
+    return monto + interes;
+  }
+
+  function calcularCuotaMensual(total, plazo){
+    return total / plazo;
+  }
+
+  // ==========================================================
+  // PARTE 5 y 6: Calcular crédito, mostrar resultado y aplicar estilo
+  // ==========================================================
+  function calcularCredito(){
+    if(clienteCredito == null){
+      mostrarTexto("resultadoCredito", "Debe buscar un cliente primero");
+      return;
+    }
+
+    let monto = recuperarFloat("montoCredito");
+    let plazo = recuperarInt("plazoCredito");
+
+    let capacidadPago = calcularCapacidadPago(clienteCredito);
+    let interes = calcularInteres(monto, tasaInteres, plazo);
+    let totalPagar = calcularTotalAPagar(monto, interes);
+    let cuotaMensual = calcularCuotaMensual(totalPagar, plazo);
+
+    creditoAprobado = cuotaMensual <= capacidadPago;
+
+    montoCalculado = monto;
+    plazoCalculado = plazo;
+    cuotaCalculada = cuotaMensual;
+
+    let resultadoCredito = document.getElementById("resultadoCredito");
+
+    resultadoCredito.innerHTML = `
+      Capacidad de pago: ${capacidadPago}<br>
+      Total a pagar: ${totalPagar.toFixed(2)}<br>
+      Cuota mensual: ${cuotaMensual.toFixed(2)}<br>
+      RESULTADO: ${creditoAprobado ? "APROBADO" : "RECHAZADO"}
+    `;
+
+    if(creditoAprobado){
+      resultadoCredito.className = "aprobado";
+    } else {
+      resultadoCredito.className = "rechazado";
+    }
   }
